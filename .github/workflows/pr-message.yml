@@ -1,0 +1,26 @@
+name: PR Message from Commit
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get commit messages
+        run: |
+          COMMIT_MESSAGES=$(git log --format=%B -n 1 ${{ github.event.pull_request.head.sha }})
+          echo "Commit messages: $COMMIT_MESSAGES"
+          echo "PR 메시지 작성 중..."
+        
+      - name: Add commit messages as PR comment
+        uses: peter-evans/comment-on-pr@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            새로운 PR을 열었습니다!
+            커밋 메시지:
+            ${{ steps.get_commit_messages.outputs.COMMIT_MESSAGES }}
