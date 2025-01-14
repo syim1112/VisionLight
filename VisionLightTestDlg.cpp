@@ -715,3 +715,4 @@ BOOL CVisionLightTestDlg::PreTranslateMessage(MSG* pMsg)
 	return CDialogEx::PreTranslateMessage(pMsg);
 }
 
+
